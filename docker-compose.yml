@@ -5,11 +5,8 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:5000
-    expose:
-      - "5000"
+    ports:
+      - "5000:5000"
     networks:
       - internal_network
 
@@ -18,7 +15,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "4200:80"
     depends_on:
       - backend
     networks:

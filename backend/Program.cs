@@ -26,6 +26,16 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Garante que o banco e as tabelas serão criados
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
+// Usa CORS
+app.UseCors("AllowAll");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,10 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Usa CORS
-app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
